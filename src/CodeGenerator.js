@@ -9,6 +9,8 @@
 
 'use strict';
 
+var _ = require('lodash');
+
 function CodeGenerator() {
 
 }
@@ -26,7 +28,7 @@ CodeGenerator.prototype.generate = function (ast) {
         }
 
         if (node.type === 'CallExpression') {
-            args = node.arguments.map(function (argNode) {
+            args = _.map(node.arguments, function (argNode) {
                 return generateFrom(argNode, node);
             });
 
@@ -47,7 +49,7 @@ CodeGenerator.prototype.generate = function (ast) {
 
         if (node.type === 'ArrayExpression') {
             return '[' +
-                node.elements.map(function (elementNode) {
+                _.map(node.elements, function (elementNode) {
                     return generateFrom(elementNode, node);
                 }).join(',') +
                 ']';
