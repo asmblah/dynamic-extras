@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dynamic.js Extras demo</title>
+
+        <style type="text/css">
+            section {
+                border-bottom: solid #333 1px;
+                margin: 2em;
+            }
+
+            heading {
+                display: block;
+                font-weight: bold;
+            }
+
+            .hide {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Dynamic.js Extras demo</h1>
+
+        <section>
+            <heading>I copy the value when clicked based on a JSON config</heading>
+            <div>
+                <label>
+                    Select
+                    <select id="copy_select">
+                        <option value="one">One</option>
+                        <option value="two">Two</option>
+                        <option value="three">Three</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Copy to here
+                    <input type="text" id="copy_to" value="" readonly>
+                </label>
+            </div>
+            <div>
+                <button id="copy_button">Click me to copy</button>
+            </div>
+
+            <script type="text/x-dyn-json">
+                {
+                    "#copy_button": {
+                        "on": "click",
+                        "behaviour": "set-value",
+                        "of": "#copy_to",
+                        "to-expr": "$('#copy_select').val()"
+                    }
+                }
+            </script>
+        </section>
+
+        <script src="../node_modules/jquery/dist/jquery.js"></script>
+        <script src="../node_modules/dynamic/dist/dynamic.js"></script>
+        <script src="../dist/dynamic-extras.js"></script>
+        <script>
+            dynamic.create(jQuery).use(dynamicExtras).applyTo($('html'));
+        </script>
+    </body>
+</html>
