@@ -14,8 +14,20 @@
                 font-weight: bold;
             }
 
-            .hide {
-                display: none;
+            .toggled_on {
+                color: red;
+            }
+
+            .red_colour {
+                color: red;
+            }
+
+            .green_colour {
+                color: green;
+            }
+
+            .blue_colour {
+                color: blue;
             }
         </style>
     </head>
@@ -51,6 +63,58 @@
                         "behaviour": "set-value",
                         "of": "#copy_to",
                         "to-expr": "$('#copy_select').val()"
+                    }
+                }
+            </script>
+        </section>
+
+        <section>
+            <heading>I toggle a class when checked or unchecked based on a JSON config</heading>
+
+            <div>
+                <label>
+                    Apply the class:
+                    <input type="checkbox" id="class_toggler">
+                </label>
+            </div>
+
+            <p id="toggle_class_message">I will be red if checked!</p>
+
+            <script type="text/x-dyn-json">
+                {
+                    "#class_toggler": {
+                        "on": "change",
+                        "behaviour": "toggle-class",
+                        "of": "#toggle_class_message",
+                        "class": "toggled_on"
+                    }
+                }
+            </script>
+        </section>
+
+        <section>
+            <heading>I set a class when changed based on a JSON config with an expression</heading>
+
+            <div>
+                <label>
+                    CSS class to apply:
+                    <select id="set_class_select">
+                        <option value="red">Red</option>
+                        <option value="green" selected>Green</option>
+                        <option value="blue">Blue</option>
+                    </select>
+                </label>
+            </div>
+
+            <p id="set_class_message">I have the selected class applied!</p>
+
+            <script type="text/x-dyn-json">
+                {
+                    "#set_class_select": {
+                        "on": "init change",
+                        "behaviour": "toggle-class",
+                        "of": "#set_class_message",
+                        "class-expr": "$('#set_class_select').val() + '_colour'"
                     }
                 }
             </script>

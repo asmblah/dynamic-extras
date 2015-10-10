@@ -13,12 +13,14 @@ var _ = require('lodash'),
     jsep = require('jsep'),
     CodeGenerator = require('./src/CodeGenerator'),
     ExpressionEvaluator = require('./src/ExpressionEvaluator'),
-    SetValueBehaviour = require('./src/Behaviour/SetValueBehaviour');
+    SetValueBehaviour = require('./src/Behaviour/SetValueBehaviour'),
+    ToggleClassBehaviour = require('./src/Behaviour/ToggleClassBehaviour');
 
 module.exports = function (dynamic) {
     var expressionEvaluator = new ExpressionEvaluator(jsep, new CodeGenerator()),
         behaviours = {
-            'set-value': new SetValueBehaviour(expressionEvaluator)
+            'set-value': new SetValueBehaviour(expressionEvaluator),
+            'toggle-class': new ToggleClassBehaviour(expressionEvaluator)
         };
 
     _.each(behaviours, function (behaviour, name) {
