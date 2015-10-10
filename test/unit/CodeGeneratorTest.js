@@ -105,7 +105,7 @@ describe('CodeGenerator', function () {
                 }
             };
 
-            expect(this.generator.generate(ast)).to.equal('((((21 + context.a.b) + context.c[context.d]) + !context.e) + [22,23])');
+            expect(this.generator.generate(ast)).to.equal('((((21 + context.a.b) + context.c[context.d]) + !context.e) + [22, 23])');
         });
     });
 });

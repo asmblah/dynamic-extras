@@ -51,7 +51,7 @@ CodeGenerator.prototype.generate = function (ast) {
             return '[' +
                 _.map(node.elements, function (elementNode) {
                     return generateFrom(elementNode, node);
-                }).join(',') +
+                }).join(', ') +
                 ']';
         }
 
