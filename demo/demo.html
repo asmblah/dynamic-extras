@@ -14,6 +14,10 @@
                 font-weight: bold;
             }
 
+            section {
+                display: block;
+            }
+
             .toggled_on {
                 color: red;
             }
@@ -30,6 +34,12 @@
                 color: blue;
             }
         </style>
+
+        <script>
+            // Shim HTML5 elements in old IE
+            document.createElement('section');
+            document.createElement('heading');
+        </script>
     </head>
     <body>
         <h1>Dynamic.js Extras demo</h1>
