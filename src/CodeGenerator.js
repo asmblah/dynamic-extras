@@ -58,11 +58,11 @@ CodeGenerator.prototype.generate = function (ast) {
         }
 
         if (node.type === 'Identifier') {
-            if (parent.type !== 'MemberExpression') {
-                return 'context.' + node.name;
+            if (parent.type === 'MemberExpression' && node === parent.property && !parent.computed) {
+                return node.name;
             }
 
-            return node.name;
+            return 'context.' + node.name;
         }
     }
 
