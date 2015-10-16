@@ -145,6 +145,39 @@
             <p id="show_hide_class_message">I am visible!</p>
         </section>
 
+        <section>
+            <heading>Setting the text of an element</heading>
+
+            <div>
+                <button
+                    data-dyn-set-text-on="click"
+                    data-dyn-set-text-of="#set_text_message"
+                    data-dyn-set-text-to="First button's text"
+                >
+                    Set to "First button's text"
+                </button>
+                <button
+                    data-dyn-set-text-on="click"
+                    data-dyn-set-text-of="#set_text_message"
+                    data-dyn-set-text-to="Second button's text"
+                >
+                    Set to "Second button's text"
+                </button>
+            </div>
+            <div>
+                <input type="text" id="set_to_text">
+                <button
+                    data-dyn-set-text-on="click"
+                    data-dyn-set-text-of="#set_text_message"
+                    data-dyn-set-text-to-expr="$('#set_to_text').val()"
+                >
+                    Set to the contents of this box
+                </button>
+            </div>
+
+            <p id="set_text_message">Initial text</p>
+        </section>
+
         <script src="../node_modules/jquery/dist/jquery.js"></script>
         <script src="../node_modules/dynamic/dist/dynamic.js"></script>
         <script src="../dist/dynamic-extras.js"></script>
