@@ -12,16 +12,16 @@
 var $ = require('jquery'),
     sinon = require('sinon'),
     ExpressionEvaluator = require('../../../src/ExpressionEvaluator'),
-    HideBehaviour = require('../../../src/Behaviour/HideBehaviour');
+    ShowBehaviour = require('../../../src/Behaviour/ShowBehaviour');
 
-describe('HideBehaviour', function () {
+describe('ShowBehaviour', function () {
     beforeEach(function () {
         this.$html = $('<html></html>');
         this.$body = $('<body></body>').appendTo(this.$html);
 
         this.expressionEvaluator = sinon.createStubInstance(ExpressionEvaluator);
 
-        this.behaviour = new HideBehaviour();
+        this.behaviour = new ShowBehaviour();
     });
 
     describe('handle()', function () {
@@ -38,21 +38,21 @@ describe('HideBehaviour', function () {
             }.bind(this);
         });
 
-        it('should add the class "hide" to the target element when not yet hidden', function () {
-            this.options.get.withArgs('hide').returns('#my_target');
-
-            this.callHandle();
-
-            expect(this.$target.hasClass('hide')).to.be.true;
-        });
-
-        it('should not remove the class "hide" from the target element when already hidden', function () {
-            this.options.get.withArgs('hide').returns('#my_target');
+        it('should remove the class "hide" from the target element when hidden', function () {
+            this.options.get.withArgs('show').returns('#my_target');
             this.$target.addClass('hide');
 
             this.callHandle();
 
-            expect(this.$target.hasClass('hide')).to.be.true;
+            expect(this.$target.hasClass('hide')).to.be.false;
+        });
+
+        it('should not add the class "hide" to the target element when already visible', function () {
+            this.options.get.withArgs('show').returns('#my_target');
+
+            this.callHandle();
+
+            expect(this.$target.hasClass('hide')).to.be.false;
         });
     });
 });

@@ -15,6 +15,7 @@ var _ = require('lodash'),
     ExpressionEvaluator = require('./src/ExpressionEvaluator'),
     HideBehaviour = require('./src/Behaviour/HideBehaviour'),
     SetValueBehaviour = require('./src/Behaviour/SetValueBehaviour'),
+    ShowBehaviour = require('./src/Behaviour/ShowBehaviour'),
     ToggleClassBehaviour = require('./src/Behaviour/ToggleClassBehaviour');
 
 module.exports = function (dynamic) {
@@ -22,6 +23,7 @@ module.exports = function (dynamic) {
         behaviours = {
             'hide': new HideBehaviour(),
             'set-value': new SetValueBehaviour(expressionEvaluator),
+            'show': new ShowBehaviour(),
             'toggle-class': new ToggleClassBehaviour(expressionEvaluator)
         };
 
