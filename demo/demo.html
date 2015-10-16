@@ -178,6 +178,26 @@
             <p id="set_text_message">Initial text</p>
         </section>
 
+        <section>
+            <heading>Preventing the default action</heading>
+
+            <div>
+                <a href="https://www.google.com"
+                   data-dyn-prevent-default-on="click"
+                   data-dyn-show-on="click"
+                   data-dyn-show="#default_action_prevented"
+                >
+                    Try to go to Google
+                </a>
+            </div>
+
+            <p id="default_action_prevented" class="hide">
+                Not going anywhere, as the default action was prevented
+
+                <button data-dyn-hide-on="click" data-dyn-hide="#default_action_prevented">OK</button>
+            </p>
+        </section>
+
         <script src="../node_modules/jquery/dist/jquery.js"></script>
         <script src="../node_modules/dynamic/dist/dynamic.js"></script>
         <script src="../dist/dynamic-extras.js"></script>
