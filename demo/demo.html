@@ -33,6 +33,10 @@
             .blue_colour {
                 color: blue;
             }
+
+            .hide {
+                display: none;
+            }
         </style>
 
         <script>
@@ -128,6 +132,17 @@
                     }
                 }
             </script>
+        </section>
+
+        <section>
+            <heading>Hiding and showing an element</heading>
+
+            <div>
+                <button data-dyn-show-on="click" data-dyn-show="#show_hide_class_message">I show the message</button>
+                <button data-dyn-hide-on="click" data-dyn-hide="#show_hide_class_message">I hide the message</button>
+            </div>
+
+            <p id="show_hide_class_message">I am visible!</p>
         </section>
 
         <script src="../node_modules/jquery/dist/jquery.js"></script>
