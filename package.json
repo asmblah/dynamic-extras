@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "2.0.0",
   "name": "dynamic-extras",
   "description": "Additional behaviours for the Dynamic JS library",
   "keywords": [
@@ -32,7 +32,7 @@
   "devDependencies": {
     "browserify": "^11.2.0",
     "chai": "^2.3.0",
-    "dynamic": "~1.4",
+    "dynamic": "~3",
     "jshint": "^2.8.0",
     "mochify": "^2.13.0",
     "nowdoc": "^1.0.0",
