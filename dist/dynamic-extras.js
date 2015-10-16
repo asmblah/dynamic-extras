@@ -15,6 +15,7 @@ var _ = require('lodash'),
     CodeGenerator = require('./src/CodeGenerator'),
     ExpressionEvaluator = require('./src/ExpressionEvaluator'),
     HideBehaviour = require('./src/Behaviour/HideBehaviour'),
+    PreventDefaultBehaviour = require('./src/Behaviour/PreventDefaultBehaviour'),
     SetTextBehaviour = require('./src/Behaviour/SetTextBehaviour'),
     SetValueBehaviour = require('./src/Behaviour/SetValueBehaviour'),
     ShowBehaviour = require('./src/Behaviour/ShowBehaviour'),
@@ -24,6 +25,7 @@ module.exports = function (dynamic) {
     var expressionEvaluator = new ExpressionEvaluator(jsep, new CodeGenerator()),
         behaviours = {
             'hide': new HideBehaviour(),
+            'prevent-default': new PreventDefaultBehaviour(),
             'set-text': new SetTextBehaviour(expressionEvaluator),
             'set-value': new SetValueBehaviour(expressionEvaluator),
             'show': new ShowBehaviour(),
@@ -35,7 +37,7 @@ module.exports = function (dynamic) {
     });
 };
 
-},{"./src/Behaviour/HideBehaviour":4,"./src/Behaviour/SetTextBehaviour":5,"./src/Behaviour/SetValueBehaviour":6,"./src/Behaviour/ShowBehaviour":7,"./src/Behaviour/ToggleClassBehaviour":8,"./src/CodeGenerator":9,"./src/ExpressionEvaluator":10,"jsep":2,"lodash":3}],2:[function(require,module,exports){
+},{"./src/Behaviour/HideBehaviour":4,"./src/Behaviour/PreventDefaultBehaviour":5,"./src/Behaviour/SetTextBehaviour":6,"./src/Behaviour/SetValueBehaviour":7,"./src/Behaviour/ShowBehaviour":8,"./src/Behaviour/ToggleClassBehaviour":9,"./src/CodeGenerator":10,"./src/ExpressionEvaluator":11,"jsep":2,"lodash":3}],2:[function(require,module,exports){
 //     JavaScript Expression Parser (JSEP) 0.3.0
 //     JSEP may be freely distributed under the MIT License
 //     http://jsep.from.so/
@@ -13046,6 +13048,28 @@ module.exports = HideBehaviour;
 
 'use strict';
 
+function PreventDefaultBehaviour() {
+
+}
+
+PreventDefaultBehaviour.prototype.handle = function ($element, options, $context, $, event) {
+    event.preventDefault();
+};
+
+module.exports = PreventDefaultBehaviour;
+
+},{}],6:[function(require,module,exports){
+/*
+ * Dynamic Extras - Additional behaviours for the Dynamic JS library
+ * Copyright (c) Dan Phillimore (asmblah)
+ * https://github.com/asmblah/dynamic-extras
+ *
+ * Released under the MIT license
+ * https://github.com/asmblah/dynamic-extras/raw/master/MIT-LICENSE.txt
+ */
+
+'use strict';
+
 function SetTextBehaviour(expressionEvaluator) {
     this.expressionEvaluator = expressionEvaluator;
 }
@@ -13070,7 +13094,7 @@ SetTextBehaviour.prototype.handle = function ($element, options, $context, $) {
 
 module.exports = SetTextBehaviour;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -13106,7 +13130,7 @@ SetValueBehaviour.prototype.handle = function ($element, options, $context, $) {
 
 module.exports = SetValueBehaviour;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -13130,7 +13154,7 @@ ShowBehaviour.prototype.handle = function ($element, options, $context) {
 
 module.exports = ShowBehaviour;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -13173,7 +13197,7 @@ ToggleClassBehaviour.prototype.handle = function ($element, options, $context, $
 
 module.exports = ToggleClassBehaviour;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -13249,7 +13273,7 @@ CodeGenerator.prototype.generate = function (ast) {
 
 module.exports = CodeGenerator;
 
-},{"lodash":3}],10:[function(require,module,exports){
+},{"lodash":3}],11:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
