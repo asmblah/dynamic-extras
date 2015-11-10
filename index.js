@@ -18,7 +18,8 @@ var _ = require('lodash'),
     SetTextBehaviour = require('./src/Behaviour/SetTextBehaviour'),
     SetValueBehaviour = require('./src/Behaviour/SetValueBehaviour'),
     ShowBehaviour = require('./src/Behaviour/ShowBehaviour'),
-    ToggleClassBehaviour = require('./src/Behaviour/ToggleClassBehaviour');
+    ToggleClassBehaviour = require('./src/Behaviour/ToggleClassBehaviour'),
+    ToggleTextBehaviour = require('./src/Behaviour/ToggleTextBehaviour');
 
 module.exports = function (dynamic) {
     var expressionEvaluator = new ExpressionEvaluator(jsep, new CodeGenerator()),
@@ -28,7 +29,8 @@ module.exports = function (dynamic) {
             'set-text': new SetTextBehaviour(expressionEvaluator),
             'set-value': new SetValueBehaviour(expressionEvaluator),
             'show': new ShowBehaviour(),
-            'toggle-class': new ToggleClassBehaviour(expressionEvaluator)
+            'toggle-class': new ToggleClassBehaviour(expressionEvaluator),
+            'toggle-text': new ToggleTextBehaviour(expressionEvaluator)
         };
 
     _.each(behaviours, function (behaviour, name) {
