@@ -12,24 +12,13 @@
 var DATA_NAME = 'dynamic.js.toggle.text.is_toggled',
     undef;
 
-function ToggleTextBehaviour(expressionEvaluator) {
-    this.expressionEvaluator = expressionEvaluator;
+function ToggleTextBehaviour() {
+
 }
 
-ToggleTextBehaviour.prototype.handle = function ($element, options, $context, $) {
-    var $target = options.get('of') ? $context.find(options.get('of')) : $element,
-        toggleText = options.get('to'),
-        toggleTextExpression;
-
-    if (toggleText === undef) {
-        toggleTextExpression = options.get('to-expr');
-
-        if (toggleTextExpression === undef) {
-            throw new Error('Neither "to" nor "to-expr" options were specified for ' + JSON.stringify(options));
-        }
-
-        toggleText = this.expressionEvaluator.evaluate(toggleTextExpression, {$: $});
-    }
+ToggleTextBehaviour.prototype.handle = function ($element, options) {
+    var $target = options.select('of', $element),
+        toggleText = options.get('to');
 
     if ($target.data(DATA_NAME) !== undef) {
         // Restore the original text

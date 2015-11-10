@@ -11,7 +11,6 @@
 
 var $ = require('jquery'),
     sinon = require('sinon'),
-    ExpressionEvaluator = require('../../../src/ExpressionEvaluator'),
     ToggleTextBehaviour = require('../../../src/Behaviour/ToggleTextBehaviour');
 
 describe('ToggleTextBehaviour', function () {
@@ -19,9 +18,7 @@ describe('ToggleTextBehaviour', function () {
         this.$html = $('<html></html>');
         this.$body = $('<body></body>').appendTo(this.$html);
 
-        this.expressionEvaluator = sinon.createStubInstance(ExpressionEvaluator);
-
-        this.behaviour = new ToggleTextBehaviour(this.expressionEvaluator);
+        this.behaviour = new ToggleTextBehaviour();
     });
 
     describe('handle()', function () {
@@ -29,7 +26,8 @@ describe('ToggleTextBehaviour', function () {
             this.$element = $('<button>I am off</button>').appendTo(this.$body);
             this.$target = $('<span id="my_target">my original text</span>').appendTo(this.$body);
             this.options = {
-                get: sinon.stub()
+                get: sinon.stub(),
+                select: sinon.stub()
             };
             this.$context = this.$html;
 
@@ -40,7 +38,7 @@ describe('ToggleTextBehaviour', function () {
 
         describe('when toggling the text of the current element to a constant/immediate string', function () {
             beforeEach(function () {
-                this.options.get.withArgs('of').returns('');
+                this.options.select.withArgs('of').returns(this.$element);
                 this.options.get.withArgs('to').returns('I am on');
             });
 
@@ -68,7 +66,7 @@ describe('ToggleTextBehaviour', function () {
 
         describe('when toggling the text of another element to a constant/immediate string', function () {
             beforeEach(function () {
-                this.options.get.withArgs('of').returns('#my_target');
+                this.options.select.withArgs('of').returns(this.$target);
                 this.options.get.withArgs('to').returns('my expected text');
             });
 
@@ -83,44 +81,6 @@ describe('ToggleTextBehaviour', function () {
                 this.callHandle();
 
                 expect(this.$target.text()).to.equal('my original text');
-            });
-        });
-
-        describe('when setting the text to the result of an expression', function () {
-            beforeEach(function () {
-                this.options.get.withArgs('of').returns('#my_target');
-                this.options.get.withArgs('to-expr').returns('my.expression + 1');
-                this.expressionEvaluator.evaluate.withArgs('my.expression + 1').returns('the result');
-            });
-
-            it('should set the text of the element', function () {
-                this.callHandle();
-
-                expect(this.$target.text()).to.equal('the result');
-            });
-
-            it('should add jQuery to the expression evaluator context', function () {
-                this.callHandle();
-
-                expect(this.expressionEvaluator.evaluate).to.have.been.calledWith(
-                    sinon.match.any,
-                    sinon.match({$: $})
-                );
-            });
-
-            it('should restore the original text on second handle', function () {
-                this.callHandle();
-                this.callHandle();
-
-                expect(this.$target.text()).to.equal('my original text');
-            });
-        });
-
-        describe('when neither the "to" nor "to-expr" options are present', function () {
-            it('should throw the expected error', function () {
-                expect(function () {
-                    this.callHandle();
-                }.bind(this)).to.throw('Neither "to" nor "to-expr" options were specified for {}');
             });
         });
     });

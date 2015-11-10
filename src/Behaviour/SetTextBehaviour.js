@@ -9,24 +9,13 @@
 
 'use strict';
 
-function SetTextBehaviour(expressionEvaluator) {
-    this.expressionEvaluator = expressionEvaluator;
+function SetTextBehaviour() {
+
 }
 
-SetTextBehaviour.prototype.handle = function ($element, options, $context, $) {
-    var $target = $context.find(options.get('of')),
-        newText = options.get('to'),
-        newTextExpression;
-
-    if (typeof newText === 'undefined') {
-        newTextExpression = options.get('to-expr');
-
-        if (typeof newTextExpression === 'undefined') {
-            throw new Error('Neither "to" nor "to-expr" options were specified for ' + JSON.stringify(options));
-        }
-
-        newText = this.expressionEvaluator.evaluate(newTextExpression, {$: $});
-    }
+SetTextBehaviour.prototype.handle = function ($element, options) {
+    var $target = options.select('of'),
+        newText = options.get('to');
 
     $target.text(newText);
 };

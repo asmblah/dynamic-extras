@@ -11,24 +11,13 @@
 
 var DATA_NAME = 'dynamic.js.toggle.class.previous';
 
-function ToggleClassBehaviour(expressionEvaluator) {
-    this.expressionEvaluator = expressionEvaluator;
+function ToggleClassBehaviour() {
+
 }
 
-ToggleClassBehaviour.prototype.handle = function ($element, options, $context, $) {
-    var $target = $context.find(options.get('of')),
-        className = options.get('class'),
-        classNameExpression;
-
-    if (typeof className === 'undefined') {
-        classNameExpression = options.get('class-expr');
-
-        if (typeof classNameExpression === 'undefined') {
-            throw new Error('Neither "class" nor "class-expr" options were specified for ' + JSON.stringify(options));
-        }
-
-        className = this.expressionEvaluator.evaluate(classNameExpression, {$: $});
-    }
+ToggleClassBehaviour.prototype.handle = function ($element, options) {
+    var $target = options.select('of'),
+        className = options.get('class');
 
     if ($target.data(DATA_NAME) && $target.data(DATA_NAME) !== className) {
         $target.toggleClass($target.data(DATA_NAME));

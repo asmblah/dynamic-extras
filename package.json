@@ -26,13 +26,12 @@
   },
   "dependencies": {
     "jquery": "~1",
-    "jsep": "^0.3.0",
     "lodash": "^3.10.0"
   },
   "devDependencies": {
     "browserify": "^11.2.0",
     "chai": "^2.3.0",
-    "dynamic": "~3",
+    "dynamic": "~4",
     "jshint": "^2.8.0",
     "mochify": "^2.13.0",
     "nowdoc": "^1.0.0",

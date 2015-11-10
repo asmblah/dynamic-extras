@@ -11,15 +11,12 @@
 
 var $ = require('jquery'),
     sinon = require('sinon'),
-    ExpressionEvaluator = require('../../../src/ExpressionEvaluator'),
     ShowBehaviour = require('../../../src/Behaviour/ShowBehaviour');
 
 describe('ShowBehaviour', function () {
     beforeEach(function () {
         this.$html = $('<html></html>');
         this.$body = $('<body></body>').appendTo(this.$html);
-
-        this.expressionEvaluator = sinon.createStubInstance(ExpressionEvaluator);
 
         this.behaviour = new ShowBehaviour();
     });
@@ -29,7 +26,7 @@ describe('ShowBehaviour', function () {
             this.$element = $('<button>Actuator</button>').appendTo(this.$body);
             this.$target = $('<input id="my_target">').appendTo(this.$body);
             this.options = {
-                get: sinon.stub()
+                select: sinon.stub()
             };
             this.$context = this.$html;
 
@@ -39,7 +36,7 @@ describe('ShowBehaviour', function () {
         });
 
         it('should remove the class "hide" from the target element when hidden', function () {
-            this.options.get.withArgs('show').returns('#my_target');
+            this.options.select.withArgs('show').returns(this.$target);
             this.$target.addClass('hide');
 
             this.callHandle();
@@ -48,7 +45,7 @@ describe('ShowBehaviour', function () {
         });
 
         it('should not add the class "hide" to the target element when already visible', function () {
-            this.options.get.withArgs('show').returns('#my_target');
+            this.options.select.withArgs('show').returns(this.$target);
 
             this.callHandle();
 

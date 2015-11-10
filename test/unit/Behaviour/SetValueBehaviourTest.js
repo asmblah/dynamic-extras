@@ -11,7 +11,6 @@
 
 var $ = require('jquery'),
     sinon = require('sinon'),
-    ExpressionEvaluator = require('../../../src/ExpressionEvaluator'),
     SetValueBehaviour = require('../../../src/Behaviour/SetValueBehaviour');
 
 describe('SetValueBehaviour', function () {
@@ -19,9 +18,7 @@ describe('SetValueBehaviour', function () {
         this.$html = $('<html></html>');
         this.$body = $('<body></body>').appendTo(this.$html);
 
-        this.expressionEvaluator = sinon.createStubInstance(ExpressionEvaluator);
-
-        this.behaviour = new SetValueBehaviour(this.expressionEvaluator);
+        this.behaviour = new SetValueBehaviour();
     });
 
     describe('handle()', function () {
@@ -29,7 +26,8 @@ describe('SetValueBehaviour', function () {
             this.$element = $('<button>Actuator</button>').appendTo(this.$body);
             this.$target = $('<input id="my_target">').appendTo(this.$body);
             this.options = {
-                get: sinon.stub()
+                get: sinon.stub(),
+                select: sinon.stub()
             };
             this.$context = this.$html;
 
@@ -40,44 +38,12 @@ describe('SetValueBehaviour', function () {
 
         describe('when setting the value to a constant/immediate string', function () {
             it('should set the value of the field', function () {
-                this.options.get.withArgs('of').returns('#my_target');
+                this.options.select.withArgs('of').returns(this.$target);
                 this.options.get.withArgs('to').returns('my expected value');
 
                 this.callHandle();
 
                 expect(this.$target.val()).to.equal('my expected value');
-            });
-        });
-
-        describe('when setting the value to the result of an expression', function () {
-            it('should set the value of the field', function () {
-                this.options.get.withArgs('of').returns('#my_target');
-                this.options.get.withArgs('to-expr').returns('my.expression + 1');
-                this.expressionEvaluator.evaluate.withArgs('my.expression + 1').returns('the result');
-
-                this.callHandle();
-
-                expect(this.$target.val()).to.equal('the result');
-            });
-
-            it('should add jQuery to the expression evaluator context', function () {
-                this.options.get.withArgs('of').returns('#my_target');
-                this.options.get.withArgs('to-expr').returns('my.expression + 1');
-
-                this.callHandle();
-
-                expect(this.expressionEvaluator.evaluate).to.have.been.calledWith(
-                    sinon.match.any,
-                    sinon.match({$: $})
-                );
-            });
-        });
-
-        describe('when neither the "to" nor "to-expr" options are present', function () {
-            it('should throw the expected error', function () {
-                expect(function () {
-                    this.callHandle();
-                }.bind(this)).to.throw('Neither "to" nor "to-expr" options were specified for {}');
             });
         });
     });

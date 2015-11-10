@@ -13,8 +13,8 @@ function HideBehaviour() {
 
 }
 
-HideBehaviour.prototype.handle = function ($element, options, $context) {
-    var $target = $context.find(options.get('hide'));
+HideBehaviour.prototype.handle = function ($element, options) {
+    var $target = options.select('hide');
 
     $target.addClass('hide');
 };

@@ -10,9 +10,6 @@
 'use strict';
 
 var _ = require('lodash'),
-    jsep = require('jsep'),
-    CodeGenerator = require('./src/CodeGenerator'),
-    ExpressionEvaluator = require('./src/ExpressionEvaluator'),
     HideBehaviour = require('./src/Behaviour/HideBehaviour'),
     PreventDefaultBehaviour = require('./src/Behaviour/PreventDefaultBehaviour'),
     SetTextBehaviour = require('./src/Behaviour/SetTextBehaviour'),
@@ -22,15 +19,14 @@ var _ = require('lodash'),
     ToggleTextBehaviour = require('./src/Behaviour/ToggleTextBehaviour');
 
 module.exports = function (dynamic) {
-    var expressionEvaluator = new ExpressionEvaluator(jsep, new CodeGenerator()),
-        behaviours = {
+    var behaviours = {
             'hide': new HideBehaviour(),
             'prevent-default': new PreventDefaultBehaviour(),
-            'set-text': new SetTextBehaviour(expressionEvaluator),
-            'set-value': new SetValueBehaviour(expressionEvaluator),
+            'set-text': new SetTextBehaviour(),
+            'set-value': new SetValueBehaviour(),
             'show': new ShowBehaviour(),
-            'toggle-class': new ToggleClassBehaviour(expressionEvaluator),
-            'toggle-text': new ToggleTextBehaviour(expressionEvaluator)
+            'toggle-class': new ToggleClassBehaviour(),
+            'toggle-text': new ToggleTextBehaviour()
         };
 
     _.each(behaviours, function (behaviour, name) {
