@@ -19,7 +19,8 @@ var _ = require('lodash'),
     SetTextBehaviour = require('./src/Behaviour/SetTextBehaviour'),
     SetValueBehaviour = require('./src/Behaviour/SetValueBehaviour'),
     ShowBehaviour = require('./src/Behaviour/ShowBehaviour'),
-    ToggleClassBehaviour = require('./src/Behaviour/ToggleClassBehaviour');
+    ToggleClassBehaviour = require('./src/Behaviour/ToggleClassBehaviour'),
+    ToggleTextBehaviour = require('./src/Behaviour/ToggleTextBehaviour');
 
 module.exports = function (dynamic) {
     var expressionEvaluator = new ExpressionEvaluator(jsep, new CodeGenerator()),
@@ -29,7 +30,8 @@ module.exports = function (dynamic) {
             'set-text': new SetTextBehaviour(expressionEvaluator),
             'set-value': new SetValueBehaviour(expressionEvaluator),
             'show': new ShowBehaviour(),
-            'toggle-class': new ToggleClassBehaviour(expressionEvaluator)
+            'toggle-class': new ToggleClassBehaviour(expressionEvaluator),
+            'toggle-text': new ToggleTextBehaviour(expressionEvaluator)
         };
 
     _.each(behaviours, function (behaviour, name) {
@@ -37,7 +39,7 @@ module.exports = function (dynamic) {
     });
 };
 
-},{"./src/Behaviour/HideBehaviour":4,"./src/Behaviour/PreventDefaultBehaviour":5,"./src/Behaviour/SetTextBehaviour":6,"./src/Behaviour/SetValueBehaviour":7,"./src/Behaviour/ShowBehaviour":8,"./src/Behaviour/ToggleClassBehaviour":9,"./src/CodeGenerator":10,"./src/ExpressionEvaluator":11,"jsep":2,"lodash":3}],2:[function(require,module,exports){
+},{"./src/Behaviour/HideBehaviour":4,"./src/Behaviour/PreventDefaultBehaviour":5,"./src/Behaviour/SetTextBehaviour":6,"./src/Behaviour/SetValueBehaviour":7,"./src/Behaviour/ShowBehaviour":8,"./src/Behaviour/ToggleClassBehaviour":9,"./src/Behaviour/ToggleTextBehaviour":10,"./src/CodeGenerator":11,"./src/ExpressionEvaluator":12,"jsep":2,"lodash":3}],2:[function(require,module,exports){
 //     JavaScript Expression Parser (JSEP) 0.3.0
 //     JSEP may be freely distributed under the MIT License
 //     http://jsep.from.so/
@@ -13209,6 +13211,53 @@ module.exports = ToggleClassBehaviour;
 
 'use strict';
 
+var DATA_NAME = 'dynamic.js.toggle.text.is_toggled',
+    undef;
+
+function ToggleTextBehaviour(expressionEvaluator) {
+    this.expressionEvaluator = expressionEvaluator;
+}
+
+ToggleTextBehaviour.prototype.handle = function ($element, options, $context, $) {
+    var $target = options.get('of') ? $context.find(options.get('of')) : $element,
+        toggleText = options.get('to'),
+        toggleTextExpression;
+
+    if (toggleText === undef) {
+        toggleTextExpression = options.get('to-expr');
+
+        if (toggleTextExpression === undef) {
+            throw new Error('Neither "to" nor "to-expr" options were specified for ' + JSON.stringify(options));
+        }
+
+        toggleText = this.expressionEvaluator.evaluate(toggleTextExpression, {$: $});
+    }
+
+    if ($target.data(DATA_NAME) !== undef) {
+        // Restore the original text
+        $target.text($target.data(DATA_NAME));
+        $target.removeData(DATA_NAME);
+    } else {
+        // Store the original text for later restore
+        $target.data(DATA_NAME, $target.text());
+        $target.text(toggleText);
+    }
+};
+
+module.exports = ToggleTextBehaviour;
+
+},{}],11:[function(require,module,exports){
+/*
+ * Dynamic Extras - Additional behaviours for the Dynamic JS library
+ * Copyright (c) Dan Phillimore (asmblah)
+ * https://github.com/asmblah/dynamic-extras
+ *
+ * Released under the MIT license
+ * https://github.com/asmblah/dynamic-extras/raw/master/MIT-LICENSE.txt
+ */
+
+'use strict';
+
 var _ = require('lodash');
 
 function CodeGenerator() {
@@ -13273,7 +13322,7 @@ CodeGenerator.prototype.generate = function (ast) {
 
 module.exports = CodeGenerator;
 
-},{"lodash":3}],11:[function(require,module,exports){
+},{"lodash":3}],12:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
