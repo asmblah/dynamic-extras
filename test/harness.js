@@ -9,9 +9,13 @@
 
 'use strict';
 
-var chai = require('chai'),
-    sinonChai = require('sinon-chai');
+var $ = require('jquery'),
+    chai = require('chai'),
+    sinon = require('sinon'),
+    sinonChai = require('sinon-chai'),
+    sinonjQuery = require('sinon-jquery');
 
 global.expect = chai.expect;
 
 chai.use(sinonChai);
+sinonjQuery.useWith(sinon, $);

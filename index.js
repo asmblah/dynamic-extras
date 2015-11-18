@@ -10,6 +10,7 @@
 'use strict';
 
 var _ = require('lodash'),
+    CopyHTMLBehaviour = require('./src/Behaviour/CopyHTMLBehaviour'),
     HideBehaviour = require('./src/Behaviour/HideBehaviour'),
     PreventDefaultBehaviour = require('./src/Behaviour/PreventDefaultBehaviour'),
     SetTextBehaviour = require('./src/Behaviour/SetTextBehaviour'),
@@ -20,6 +21,7 @@ var _ = require('lodash'),
 
 module.exports = function (dynamic) {
     var behaviours = {
+            'copy-html': new CopyHTMLBehaviour(),
             'hide': new HideBehaviour(),
             'prevent-default': new PreventDefaultBehaviour(),
             'set-text': new SetTextBehaviour(),

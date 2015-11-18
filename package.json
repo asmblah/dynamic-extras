@@ -25,8 +25,7 @@
     "test": "npm run jshint && npm run mocha"
   },
   "dependencies": {
-    "jquery": "~1",
-    "lodash": "^3.10.0"
+    "jquery": "~1"
   },
   "devDependencies": {
     "browserify": "^11.2.0",
@@ -36,7 +35,8 @@
     "mochify": "^2.13.0",
     "nowdoc": "^1.0.0",
     "sinon": "~1.15",
-    "sinon-chai": "^2.7.0"
+    "sinon-chai": "^2.7.0",
+    "sinon-jquery": "~1"
   },
   "engines": {
     "node": ">=0.6"

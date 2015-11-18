@@ -18,6 +18,16 @@
                 display: block;
             }
 
+            .box {
+                border: solid #999 1px;
+                padding: 1em;
+            }
+
+            .surround {
+                border: solid purple 1px;
+                padding: 1em;
+            }
+
             .toggled_on {
                 color: red;
             }
@@ -36,6 +46,11 @@
 
             .hide {
                 display: none;
+            }
+
+            .highlight {
+                background: orange;
+                color: #fff;
             }
         </style>
 
@@ -207,6 +222,56 @@
                    data-dyn-toggle-text-to="I am toggled off"
                 >
                     I am toggled on
+                </button>
+            </div>
+        </section>
+
+        <section>
+            <heading>Copying HTML</heading>
+
+            <div>
+                <p class="box">
+                    <span id="copy_html_target" class="surround">
+                        <span class="highlight">My text</span>
+                    </span>
+                </p>
+
+                <div id="copy_html_source">My <em>HTML</em> to copy</div>
+
+                <button
+                    data-dyn-copy-html-on="click"
+                    data-dyn-copy-html-of="#copy_html_source"
+                    data-dyn-copy-html-to="#copy_html_target"
+                    data-dyn-copy-html-at="beforeBegin"
+                >
+                    Insert before
+                </button>
+
+                <button
+                    data-dyn-copy-html-on="click"
+                    data-dyn-copy-html-of="#copy_html_source"
+                    data-dyn-copy-html-to="#copy_html_target"
+                    data-dyn-copy-html-at="afterBegin"
+                >
+                    Prepend
+                </button>
+
+                <button
+                    data-dyn-copy-html-on="click"
+                    data-dyn-copy-html-of="#copy_html_source"
+                    data-dyn-copy-html-to="#copy_html_target"
+                    data-dyn-copy-html-at="beforeEnd"
+                >
+                    Append
+                </button>
+
+                <button
+                    data-dyn-copy-html-on="click"
+                    data-dyn-copy-html-of="#copy_html_source"
+                    data-dyn-copy-html-to="#copy_html_target"
+                    data-dyn-copy-html-at="afterEnd"
+                >
+                    Insert after
                 </button>
             </div>
         </section>
