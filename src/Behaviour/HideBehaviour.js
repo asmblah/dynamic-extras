@@ -14,9 +14,16 @@ function HideBehaviour() {
 }
 
 HideBehaviour.prototype.handle = function ($element, options) {
-    var $target = options.select('hide');
+    var $target = options.select('hide'),
+        alsoDisable = options.get('disable', 'no') === 'yes';
 
     $target.addClass('hide');
+
+    // Sometimes it can be useful to also disable an element when hiding:
+    // for example, to prevent form elements from being included in POST data.
+    if (alsoDisable) {
+        $target.attr('disabled', 'disabled');
+    }
 };
 
 module.exports = HideBehaviour;

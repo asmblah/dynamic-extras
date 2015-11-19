@@ -14,9 +14,16 @@ function ShowBehaviour() {
 }
 
 ShowBehaviour.prototype.handle = function ($element, options) {
-    var $target = options.select('show');
+    var $target = options.select('show'),
+        alsoEnable = options.get('enable', 'no') === 'yes';
 
     $target.removeClass('hide');
+
+    // Sometimes it can be useful to also enable an element when showing:
+    // for example, to re-allow form elements to be included in POST data.
+    if (alsoEnable) {
+        $target.removeAttr('disabled');
+    }
 };
 
 module.exports = ShowBehaviour;

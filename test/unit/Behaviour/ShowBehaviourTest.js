@@ -26,9 +26,13 @@ describe('ShowBehaviour', function () {
             this.$element = $('<button>Actuator</button>').appendTo(this.$body);
             this.$target = $('<input id="my_target">').appendTo(this.$body);
             this.options = {
+                get: sinon.stub(),
                 select: sinon.stub()
             };
             this.$context = this.$html;
+
+            this.options.get.withArgs('enable', 'no').returns('no');
+            this.options.select.withArgs('show').returns(this.$target);
 
             this.callHandle = function () {
                 this.behaviour.handle(this.$element, this.options, this.$context, $);
@@ -36,7 +40,6 @@ describe('ShowBehaviour', function () {
         });
 
         it('should remove the class "hide" from the target element when hidden', function () {
-            this.options.select.withArgs('show').returns(this.$target);
             this.$target.addClass('hide');
 
             this.callHandle();
@@ -45,11 +48,27 @@ describe('ShowBehaviour', function () {
         });
 
         it('should not add the class "hide" to the target element when already visible', function () {
-            this.options.select.withArgs('show').returns(this.$target);
-
             this.callHandle();
 
             expect(this.$target.hasClass('hide')).to.be.false;
+        });
+
+        it('should also enable the target element when "enable" option is set', function () {
+            this.options.get.withArgs('enable', 'no').returns('yes');
+            this.$target.attr('disabled', 'disabled');
+
+            this.callHandle();
+
+            expect(this.$target.is(':enabled')).to.be.true;
+        });
+
+        it('should not also enable the target element when "enable" option is not set', function () {
+            this.options.get.withArgs('enable', 'no').returns('no');
+            this.$target.attr('disabled', 'disabled');
+
+            this.callHandle();
+
+            expect(this.$target.is(':enabled')).to.be.false;
         });
     });
 });
