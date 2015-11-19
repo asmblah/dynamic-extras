@@ -14,7 +14,7 @@ function SetTextBehaviour() {
 }
 
 SetTextBehaviour.prototype.handle = function ($element, options) {
-    var $target = options.select('of'),
+    var $target = options.select('of', $element),
         newText = options.get('to');
 
     $target.text(newText);

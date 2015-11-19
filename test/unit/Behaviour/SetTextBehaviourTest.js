@@ -45,6 +45,15 @@ describe('SetTextBehaviour', function () {
 
                 expect(this.$target.text()).to.equal('my expected text');
             });
+
+            it('should set the text of the current element by default', function () {
+                this.options.select.withArgs('of', sinon.match.jQuery(this.$element)).returns(this.$element);
+                this.options.get.withArgs('to').returns('my expected text');
+
+                this.callHandle();
+
+                expect(this.$element.text()).to.equal('my expected text');
+            });
         });
     });
 });
