@@ -32,7 +32,6 @@ describe('HideBehaviour', function () {
             this.$context = this.$html;
 
             this.options.get.withArgs('disable', 'no').returns('no');
-            this.options.select.withArgs('hide').returns(this.$target);
 
             this.callHandle = function () {
                 this.behaviour.handle(this.$element, this.options, this.$context, $);
@@ -40,12 +39,15 @@ describe('HideBehaviour', function () {
         });
 
         it('should add the class "hide" to the target element when not yet hidden', function () {
+            this.options.select.withArgs('hide').returns(this.$target);
+
             this.callHandle();
 
             expect(this.$target.hasClass('hide')).to.be.true;
         });
 
         it('should not remove the class "hide" from the target element when already hidden', function () {
+            this.options.select.withArgs('hide').returns(this.$target);
             this.$target.addClass('hide');
 
             this.callHandle();
@@ -53,20 +55,48 @@ describe('HideBehaviour', function () {
             expect(this.$target.hasClass('hide')).to.be.true;
         });
 
-        it('should also disable the target element when "disable" option is set', function () {
-            this.options.get.withArgs('disable', 'no').returns('yes');
+        describe('when "disable" option is set', function () {
+            it('should also disable the target element', function () {
+                this.options.select.withArgs('hide').returns(this.$target);
+                this.options.get.withArgs('disable', 'no').returns('yes');
 
-            this.callHandle();
+                this.callHandle();
 
-            expect(this.$target.is(':disabled')).to.be.true;
+                expect(this.$target.is(':disabled')).to.be.true;
+            });
+
+            it('should also disable descendant elements of the target element', function () {
+                this.$target = $('<div><input id="field"></div>');
+                this.options.select.withArgs('hide').returns(this.$target);
+                this.$field = this.$target.find('#field');
+                this.options.get.withArgs('disable', 'no').returns('yes');
+
+                this.callHandle();
+
+                expect(this.$field.is(':disabled')).to.be.true;
+            });
         });
 
-        it('should not also disable the target element when "disable" option is not set', function () {
-            this.options.get.withArgs('disable', 'no').returns('no');
+        describe('when "disable" option is not set', function () {
+            it('should not also disable the target element', function () {
+                this.options.select.withArgs('hide').returns(this.$target);
+                this.options.get.withArgs('disable', 'no').returns('no');
 
-            this.callHandle();
+                this.callHandle();
 
-            expect(this.$target.is(':disabled')).to.be.false;
+                expect(this.$target.is(':disabled')).to.be.false;
+            });
+
+            it('should not also disable descendant elements of the target element', function () {
+                this.$target = $('<div><input id="field"></div>');
+                this.options.select.withArgs('hide').returns(this.$target);
+                this.$field = this.$target.find('#field');
+                this.options.get.withArgs('disable', 'no').returns('no');
+
+                this.callHandle();
+
+                expect(this.$field.is(':disabled')).to.be.false;
+            });
         });
     });
 });

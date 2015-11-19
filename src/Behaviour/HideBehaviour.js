@@ -22,7 +22,7 @@ HideBehaviour.prototype.handle = function ($element, options) {
     // Sometimes it can be useful to also disable an element when hiding:
     // for example, to prevent form elements from being included in POST data.
     if (alsoDisable) {
-        $target.attr('disabled', 'disabled');
+        $target.find(':input').andSelf().attr('disabled', 'disabled');
     }
 };
 
