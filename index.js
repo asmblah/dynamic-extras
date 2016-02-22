@@ -10,9 +10,11 @@
 'use strict';
 
 var _ = require('lodash'),
+    AddClassBehaviour = require('./src/Behaviour/AddClassBehaviour'),
     CopyHTMLBehaviour = require('./src/Behaviour/CopyHTMLBehaviour'),
     HideBehaviour = require('./src/Behaviour/HideBehaviour'),
     PreventDefaultBehaviour = require('./src/Behaviour/PreventDefaultBehaviour'),
+    RemoveClassBehaviour = require('./src/Behaviour/RemoveClassBehaviour'),
     SetTextBehaviour = require('./src/Behaviour/SetTextBehaviour'),
     SetValueBehaviour = require('./src/Behaviour/SetValueBehaviour'),
     ShowBehaviour = require('./src/Behaviour/ShowBehaviour'),
@@ -21,9 +23,11 @@ var _ = require('lodash'),
 
 module.exports = function (dynamic) {
     var behaviours = {
+            'add-class': new AddClassBehaviour(),
             'copy-html': new CopyHTMLBehaviour(),
             'hide': new HideBehaviour(),
             'prevent-default': new PreventDefaultBehaviour(),
+            'remove-class': new RemoveClassBehaviour(),
             'set-text': new SetTextBehaviour(),
             'set-value': new SetValueBehaviour(),
             'show': new ShowBehaviour(),

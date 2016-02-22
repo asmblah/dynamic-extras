@@ -11,9 +11,11 @@
 'use strict';
 
 var _ = require('lodash'),
+    AddClassBehaviour = require('./src/Behaviour/AddClassBehaviour'),
     CopyHTMLBehaviour = require('./src/Behaviour/CopyHTMLBehaviour'),
     HideBehaviour = require('./src/Behaviour/HideBehaviour'),
     PreventDefaultBehaviour = require('./src/Behaviour/PreventDefaultBehaviour'),
+    RemoveClassBehaviour = require('./src/Behaviour/RemoveClassBehaviour'),
     SetTextBehaviour = require('./src/Behaviour/SetTextBehaviour'),
     SetValueBehaviour = require('./src/Behaviour/SetValueBehaviour'),
     ShowBehaviour = require('./src/Behaviour/ShowBehaviour'),
@@ -22,9 +24,11 @@ var _ = require('lodash'),
 
 module.exports = function (dynamic) {
     var behaviours = {
+            'add-class': new AddClassBehaviour(),
             'copy-html': new CopyHTMLBehaviour(),
             'hide': new HideBehaviour(),
             'prevent-default': new PreventDefaultBehaviour(),
+            'remove-class': new RemoveClassBehaviour(),
             'set-text': new SetTextBehaviour(),
             'set-value': new SetValueBehaviour(),
             'show': new ShowBehaviour(),
@@ -37,7 +41,7 @@ module.exports = function (dynamic) {
     });
 };
 
-},{"./src/Behaviour/CopyHTMLBehaviour":3,"./src/Behaviour/HideBehaviour":4,"./src/Behaviour/PreventDefaultBehaviour":5,"./src/Behaviour/SetTextBehaviour":6,"./src/Behaviour/SetValueBehaviour":7,"./src/Behaviour/ShowBehaviour":8,"./src/Behaviour/ToggleClassBehaviour":9,"./src/Behaviour/ToggleTextBehaviour":10,"lodash":2}],2:[function(require,module,exports){
+},{"./src/Behaviour/AddClassBehaviour":3,"./src/Behaviour/CopyHTMLBehaviour":4,"./src/Behaviour/HideBehaviour":5,"./src/Behaviour/PreventDefaultBehaviour":6,"./src/Behaviour/RemoveClassBehaviour":7,"./src/Behaviour/SetTextBehaviour":8,"./src/Behaviour/SetValueBehaviour":9,"./src/Behaviour/ShowBehaviour":10,"./src/Behaviour/ToggleClassBehaviour":11,"./src/Behaviour/ToggleTextBehaviour":12,"lodash":2}],2:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -12219,6 +12223,31 @@ module.exports = function (dynamic) {
 
 'use strict';
 
+function AddClassBehaviour() {
+
+}
+
+AddClassBehaviour.prototype.handle = function ($element, options) {
+    var $target = options.select('to'),
+        className = options.get('class');
+
+    $target.addClass(className);
+};
+
+module.exports = AddClassBehaviour;
+
+},{}],4:[function(require,module,exports){
+/*
+ * Dynamic Extras - Additional behaviours for the Dynamic JS library
+ * Copyright (c) Dan Phillimore (asmblah)
+ * https://github.com/asmblah/dynamic-extras
+ *
+ * Released under the MIT license
+ * https://github.com/asmblah/dynamic-extras/raw/master/MIT-LICENSE.txt
+ */
+
+'use strict';
+
 var destinationMethodMap = {
         'beforeBegin': 'before',
         'afterBegin': 'prepend',
@@ -12250,7 +12279,7 @@ CopyHTMLBehaviour.prototype.handle = function ($element, options) {
 
 module.exports = CopyHTMLBehaviour;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -12267,14 +12296,21 @@ function HideBehaviour() {
 }
 
 HideBehaviour.prototype.handle = function ($element, options) {
-    var $target = options.select('hide');
+    var $target = options.select('hide'),
+        alsoDisable = options.get('disable', 'no') === 'yes';
 
     $target.addClass('hide');
+
+    // Sometimes it can be useful to also disable an element when hiding:
+    // for example, to prevent form elements from being included in POST data.
+    if (alsoDisable) {
+        $target.find(':input').andSelf().attr('disabled', 'disabled');
+    }
 };
 
 module.exports = HideBehaviour;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -12296,7 +12332,32 @@ PreventDefaultBehaviour.prototype.handle = function ($element, options, $context
 
 module.exports = PreventDefaultBehaviour;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
+/*
+ * Dynamic Extras - Additional behaviours for the Dynamic JS library
+ * Copyright (c) Dan Phillimore (asmblah)
+ * https://github.com/asmblah/dynamic-extras
+ *
+ * Released under the MIT license
+ * https://github.com/asmblah/dynamic-extras/raw/master/MIT-LICENSE.txt
+ */
+
+'use strict';
+
+function RemoveClassBehaviour() {
+
+}
+
+RemoveClassBehaviour.prototype.handle = function ($element, options) {
+    var $target = options.select('of'),
+        className = options.get('class');
+
+    $target.removeClass(className);
+};
+
+module.exports = RemoveClassBehaviour;
+
+},{}],8:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -12313,7 +12374,7 @@ function SetTextBehaviour() {
 }
 
 SetTextBehaviour.prototype.handle = function ($element, options) {
-    var $target = options.select('of'),
+    var $target = options.select('of', $element),
         newText = options.get('to');
 
     $target.text(newText);
@@ -12321,7 +12382,7 @@ SetTextBehaviour.prototype.handle = function ($element, options) {
 
 module.exports = SetTextBehaviour;
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -12346,7 +12407,7 @@ SetValueBehaviour.prototype.handle = function ($element, options) {
 
 module.exports = SetValueBehaviour;
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -12363,14 +12424,21 @@ function ShowBehaviour() {
 }
 
 ShowBehaviour.prototype.handle = function ($element, options) {
-    var $target = options.select('show');
+    var $target = options.select('show'),
+        alsoEnable = options.get('enable', 'no') === 'yes';
 
     $target.removeClass('hide');
+
+    // Sometimes it can be useful to also enable an element when showing:
+    // for example, to re-allow form elements to be included in POST data.
+    if (alsoEnable) {
+        $target.find(':input').andSelf().removeAttr('disabled');
+    }
 };
 
 module.exports = ShowBehaviour;
 
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)
@@ -12402,7 +12470,7 @@ ToggleClassBehaviour.prototype.handle = function ($element, options) {
 
 module.exports = ToggleClassBehaviour;
 
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*
  * Dynamic Extras - Additional behaviours for the Dynamic JS library
  * Copyright (c) Dan Phillimore (asmblah)

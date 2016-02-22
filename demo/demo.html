@@ -122,6 +122,31 @@
         </section>
 
         <section>
+            <heading>Add/remove class on click based on data attributes</heading>
+
+            <div>
+                <button
+                    type="button"
+                    data-dyn-add-class-on="click"
+                    data-dyn-add-class-class="green_colour"
+                    data-dyn-add-class-to="#add_remove_class_message"
+                >
+                    Make green
+                </button>
+
+                <button type="button"
+                    data-dyn-remove-class-on="click"
+                    data-dyn-remove-class-class="green_colour"
+                    data-dyn-remove-class-of="#add_remove_class_message"
+                >
+                    Remove green
+                </button>
+            </div>
+
+            <p id="add_remove_class_message">I may be green</p>
+        </section>
+
+        <section>
             <heading>I set a class when changed based on a JSON config with an expression</heading>
 
             <div>
