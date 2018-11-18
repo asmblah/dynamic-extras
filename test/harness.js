@@ -13,7 +13,7 @@ var $ = require('jquery'),
     chai = require('chai'),
     sinon = require('sinon'),
     sinonChai = require('sinon-chai'),
-    sinonjQuery = require('sinon-jquery');
+    sinonjQuery = require('sinon-jquery').default;
 
 global.expect = chai.expect;
 
