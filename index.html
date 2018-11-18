@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dynamic.js Extras demo</title>
+
+        <style type="text/css">
+            section {
+                border-bottom: solid #333 1px;
+                margin: 2em;
+            }
+
+            heading {
+                display: block;
+                font-weight: bold;
+            }
+
+            section {
+                display: block;
+            }
+
+            .box {
+                border: solid #999 1px;
+                padding: 1em;
+            }
+
+            .surround {
+                border: solid purple 1px;
+                padding: 1em;
+            }
+
+            .toggled_on {
+                color: red;
+            }
+
+            .red_colour {
+                color: red;
+            }
+
+            .green_colour {
+                color: green;
+            }
+
+            .blue_colour {
+                color: blue;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            .highlight {
+                background: orange;
+                color: #fff;
+            }
+        </style>
+
+        <script>
+            // Shim HTML5 elements in old IE
+            document.createElement('section');
+            document.createElement('heading');
+        </script>
+    </head>
+    <body>
+        <h1>Dynamic.js Extras demo</h1>
+
+        <p>
+            Dynamic.js is a small library that allows binding simple behaviours to DOM elements using data- attributes.
+        </p>
+        <p>
+            See the <a href="//asmblah.github.io/dynamic/">main Dynamic.js project docs here</a>.
+        </p>
+
+        <section>
+            <heading>I copy the value when clicked based on a JSON config</heading>
+            <div>
+                <label>
+                    Select
+                    <select id="copy_select">
+                        <option value="one">One</option>
+                        <option value="two">Two</option>
+                        <option value="three">Three</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Copy to here
+                    <input type="text" id="copy_to" value="" readonly>
+                </label>
+            </div>
+            <div>
+                <button id="copy_button">Click me to copy</button>
+            </div>
+
+            <script type="text/x-dyn-json">
+                {
+                    "#copy_button": {
+                        "on": "click",
+                        "behaviour": "set-value",
+                        "of": "#copy_to",
+                        "to-expr": "$('#copy_select').val()"
+                    }
+                }
+            </script>
+        </section>
+
+        <section>
+            <heading>I toggle a class when checked or unchecked based on a JSON config</heading>
+
+            <div>
+                <label>
+                    Apply the class:
+                    <input type="checkbox" id="class_toggler">
+                </label>
+            </div>
+
+            <p id="toggle_class_message">I will be red if checked!</p>
+
+            <script type="text/x-dyn-json">
+                {
+                    "#class_toggler": {
+                        "on": "change",
+                        "behaviour": "toggle-class",
+                        "of": "#toggle_class_message",
+                        "class": "toggled_on"
+                    }
+                }
+            </script>
+        </section>
+
+        <section>
+            <heading>Add/remove class on click based on data attributes</heading>
+
+            <div>
+                <button
+                    type="button"
+                    data-dyn-add-class-on="click"
+                    data-dyn-add-class-class="green_colour"
+                    data-dyn-add-class-to="#add_remove_class_message"
+                >
+                    Make green
+                </button>
+
+                <button type="button"
+                    data-dyn-remove-class-on="click"
+                    data-dyn-remove-class-class="green_colour"
+                    data-dyn-remove-class-of="#add_remove_class_message"
+                >
+                    Remove green
+                </button>
+            </div>
+
+            <p id="add_remove_class_message">I may be green</p>
+        </section>
+
+        <section>
+            <heading>I set a class when changed based on a JSON config with an expression</heading>
+
+            <div>
+                <label>
+                    CSS class to apply:
+                    <select id="set_class_select">
+                        <option value="red">Red</option>
+                        <option value="green" selected>Green</option>
+                        <option value="blue">Blue</option>
+                    </select>
+                </label>
+            </div>
+
+            <p id="set_class_message">I have the selected class applied!</p>
+
+            <script type="text/x-dyn-json">
+                {
+                    "#set_class_select": {
+                        "on": "init change",
+                        "behaviour": "toggle-class",
+                        "of": "#set_class_message",
+                        "class-expr": "$('#set_class_select').val() + '_colour'"
+                    }
+                }
+            </script>
+        </section>
+
+        <section>
+            <heading>Hiding and showing an element</heading>
+
+            <div>
+                <button data-dyn-show-on="click" data-dyn-show="#show_hide_class_message">I show the message</button>
+                <button data-dyn-hide-on="click" data-dyn-hide="#show_hide_class_message">I hide the message</button>
+            </div>
+
+            <p id="show_hide_class_message">I am visible!</p>
+        </section>
+
+        <section>
+            <heading>Setting the text of an element</heading>
+
+            <div>
+                <button
+                    data-dyn-set-text-on="click"
+                    data-dyn-set-text-of="#set_text_message"
+                    data-dyn-set-text-to="First button's text"
+                >
+                    Set to "First button's text"
+                </button>
+                <button
+                    data-dyn-set-text-on="click"
+                    data-dyn-set-text-of="#set_text_message"
+                    data-dyn-set-text-to="Second button's text"
+                >
+                    Set to "Second button's text"
+                </button>
+            </div>
+            <div>
+                <input type="text" id="set_to_text">
+                <button
+                    data-dyn-set-text-on="click"
+                    data-dyn-set-text-of="#set_text_message"
+                    data-dyn-set-text-to-expr="$('#set_to_text').val()"
+                >
+                    Set to the contents of this box
+                </button>
+            </div>
+
+            <p id="set_text_message">Initial text</p>
+        </section>
+
+        <section>
+            <heading>Preventing the default action</heading>
+
+            <div>
+                <a href="https://www.google.com"
+                   data-dyn-prevent-default-on="click"
+                   data-dyn-show-on="click"
+                   data-dyn-show="#default_action_prevented"
+                >
+                    Try to go to Google
+                </a>
+            </div>
+
+            <p id="default_action_prevented" class="hide">
+                Not going anywhere, as the default action was prevented
+
+                <button data-dyn-hide-on="click" data-dyn-hide="#default_action_prevented">OK</button>
+            </p>
+        </section>
+
+        <section>
+            <heading>Toggling text</heading>
+
+            <div>
+                <button
+                   data-dyn-toggle-text-on="click"
+                   data-dyn-toggle-text-to="I am toggled off"
+                >
+                    I am toggled on
+                </button>
+            </div>
+        </section>
+
+        <section>
+            <heading>Copying HTML</heading>
+
+            <div>
+                <p class="box">
+                    <span id="copy_html_target" class="surround">
+                        <span class="highlight">My text</span>
+                    </span>
+                </p>
+
+                <div id="copy_html_source">My <em>HTML</em> to copy</div>
+
+                <button
+                    data-dyn-copy-html-on="click"
+                    data-dyn-copy-html-of="#copy_html_source"
+                    data-dyn-copy-html-to="#copy_html_target"
+                    data-dyn-copy-html-at="beforeBegin"
+                >
+                    Insert before
+                </button>
+
+                <button
+                    data-dyn-copy-html-on="click"
+                    data-dyn-copy-html-of="#copy_html_source"
+                    data-dyn-copy-html-to="#copy_html_target"
+                    data-dyn-copy-html-at="afterBegin"
+                >
+                    Prepend
+                </button>
+
+                <button
+                    data-dyn-copy-html-on="click"
+                    data-dyn-copy-html-of="#copy_html_source"
+                    data-dyn-copy-html-to="#copy_html_target"
+                    data-dyn-copy-html-at="beforeEnd"
+                >
+                    Append
+                </button>
+
+                <button
+                    data-dyn-copy-html-on="click"
+                    data-dyn-copy-html-of="#copy_html_source"
+                    data-dyn-copy-html-to="#copy_html_target"
+                    data-dyn-copy-html-at="afterEnd"
+                >
+                    Insert after
+                </button>
+            </div>
+        </section>
+
+        <section>
+            <heading>Setting/clearing focus</heading>
+
+            <div>
+                <button
+                    data-dyn-set-focus-on="click"
+                    data-dyn-set-focus-to="#set_focus_field_1"
+                >
+                    Focus first text field
+                </button>
+                <button
+                    data-dyn-set-focus-on="click"
+                    data-dyn-set-focus-to="#set_focus_field_2"
+                >
+                    Focus second text field
+                </button>
+                <button
+                    data-dyn-blur-focus-on="mouseenter"
+                    data-dyn-blur-focus-of="#set_focus_field_1"
+                >
+                    Blur first text field (on hover)
+                </button>
+            </div>
+
+            <p>
+                <label>First field: <input id="set_focus_field_1" value="First field"></label>
+                <label>Second field: <input id="set_focus_field_2" value="Second field"></label>
+            </p>
+        </section>
+
+        <script src="dist/jquery.js"></script>
+        <script src="dist/dynamic.js"></script>
+        <script src="dist/dynamic-extras.js"></script>
+        <script>
+            dynamic.create(jQuery).use(dynamicExtras).applyTo(jQuery('html'));
+        </script>
+    </body>
+</html>
