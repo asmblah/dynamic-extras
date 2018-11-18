@@ -301,6 +301,36 @@
             </div>
         </section>
 
+        <section>
+            <heading>Setting/clearing focus</heading>
+
+            <div>
+                <button
+                    data-dyn-set-focus-on="click"
+                    data-dyn-set-focus-to="#set_focus_field_1"
+                >
+                    Focus first text field
+                </button>
+                <button
+                    data-dyn-set-focus-on="click"
+                    data-dyn-set-focus-to="#set_focus_field_2"
+                >
+                    Focus second text field
+                </button>
+                <button
+                    data-dyn-blur-focus-on="mouseenter"
+                    data-dyn-blur-focus-of="#set_focus_field_1"
+                >
+                    Blur first text field (on hover)
+                </button>
+            </div>
+
+            <p>
+                <label>First field: <input id="set_focus_field_1" value="First field"></label>
+                <label>Second field: <input id="set_focus_field_2" value="Second field"></label>
+            </p>
+        </section>
+
         <script src="../node_modules/jquery/dist/jquery.js"></script>
         <script src="../node_modules/dynamic/dist/dynamic.js"></script>
         <script src="../dist/dynamic-extras.js"></script>
