@@ -25,12 +25,12 @@
     "test": "npm run jshint && npm run mocha"
   },
   "dependencies": {
-    "jquery": "^1.12.4"
+    "jquery": "^3.4.1"
   },
   "devDependencies": {
     "browserify": "^11.2.0",
     "chai": "^2.3.0",
-    "dynamic": "^4.2.1",
+    "dynamic": "^4.2.2",
     "jshint": "^2.9.6",
     "mochify": "^2.19.0",
     "nowdoc": "^1.0.0",
